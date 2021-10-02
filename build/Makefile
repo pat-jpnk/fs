@@ -123,59 +123,59 @@ fs/fast:
 	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/build
 .PHONY : fs/fast
 
-fs.o: fs.c.o
+app/fs.o: app/fs.c.o
 
-.PHONY : fs.o
-
-# target to build an object file
-fs.c.o:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/fs.c.o
-.PHONY : fs.c.o
-
-fs.i: fs.c.i
-
-.PHONY : fs.i
-
-# target to preprocess a source file
-fs.c.i:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/fs.c.i
-.PHONY : fs.c.i
-
-fs.s: fs.c.s
-
-.PHONY : fs.s
-
-# target to generate assembly for a file
-fs.c.s:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/fs.c.s
-.PHONY : fs.c.s
-
-operations.o: operations.c.o
-
-.PHONY : operations.o
+.PHONY : app/fs.o
 
 # target to build an object file
-operations.c.o:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/operations.c.o
-.PHONY : operations.c.o
+app/fs.c.o:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/fs.c.o
+.PHONY : app/fs.c.o
 
-operations.i: operations.c.i
+app/fs.i: app/fs.c.i
 
-.PHONY : operations.i
+.PHONY : app/fs.i
 
 # target to preprocess a source file
-operations.c.i:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/operations.c.i
-.PHONY : operations.c.i
+app/fs.c.i:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/fs.c.i
+.PHONY : app/fs.c.i
 
-operations.s: operations.c.s
+app/fs.s: app/fs.c.s
 
-.PHONY : operations.s
+.PHONY : app/fs.s
 
 # target to generate assembly for a file
-operations.c.s:
-	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/operations.c.s
-.PHONY : operations.c.s
+app/fs.c.s:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/fs.c.s
+.PHONY : app/fs.c.s
+
+app/operations.o: app/operations.c.o
+
+.PHONY : app/operations.o
+
+# target to build an object file
+app/operations.c.o:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/operations.c.o
+.PHONY : app/operations.c.o
+
+app/operations.i: app/operations.c.i
+
+.PHONY : app/operations.i
+
+# target to preprocess a source file
+app/operations.c.i:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/operations.c.i
+.PHONY : app/operations.c.i
+
+app/operations.s: app/operations.c.s
+
+.PHONY : app/operations.s
+
+# target to generate assembly for a file
+app/operations.c.s:
+	$(MAKE) -f CMakeFiles/fs.dir/build.make CMakeFiles/fs.dir/app/operations.c.s
+.PHONY : app/operations.c.s
 
 # Help Target
 help:
@@ -186,12 +186,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... fs"
-	@echo "... fs.o"
-	@echo "... fs.i"
-	@echo "... fs.s"
-	@echo "... operations.o"
-	@echo "... operations.i"
-	@echo "... operations.s"
+	@echo "... app/fs.o"
+	@echo "... app/fs.i"
+	@echo "... app/fs.s"
+	@echo "... app/operations.o"
+	@echo "... app/operations.i"
+	@echo "... app/operations.s"
 .PHONY : help
 
 

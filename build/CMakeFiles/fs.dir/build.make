@@ -57,42 +57,42 @@ include CMakeFiles/fs.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/fs.dir/flags.make
 
-CMakeFiles/fs.dir/fs.c.o: CMakeFiles/fs.dir/flags.make
-CMakeFiles/fs.dir/fs.c.o: ../fs.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/patrick/Programming/fs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fs.dir/fs.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fs.dir/fs.c.o   -c /home/patrick/Programming/fs/fs.c
+CMakeFiles/fs.dir/app/fs.c.o: CMakeFiles/fs.dir/flags.make
+CMakeFiles/fs.dir/app/fs.c.o: ../app/fs.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/patrick/Programming/fs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/fs.dir/app/fs.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fs.dir/app/fs.c.o   -c /home/patrick/Programming/fs/app/fs.c
 
-CMakeFiles/fs.dir/fs.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fs.dir/fs.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/patrick/Programming/fs/fs.c > CMakeFiles/fs.dir/fs.c.i
+CMakeFiles/fs.dir/app/fs.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fs.dir/app/fs.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/patrick/Programming/fs/app/fs.c > CMakeFiles/fs.dir/app/fs.c.i
 
-CMakeFiles/fs.dir/fs.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fs.dir/fs.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/patrick/Programming/fs/fs.c -o CMakeFiles/fs.dir/fs.c.s
+CMakeFiles/fs.dir/app/fs.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fs.dir/app/fs.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/patrick/Programming/fs/app/fs.c -o CMakeFiles/fs.dir/app/fs.c.s
 
-CMakeFiles/fs.dir/operations.c.o: CMakeFiles/fs.dir/flags.make
-CMakeFiles/fs.dir/operations.c.o: ../operations.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/patrick/Programming/fs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/fs.dir/operations.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fs.dir/operations.c.o   -c /home/patrick/Programming/fs/operations.c
+CMakeFiles/fs.dir/app/operations.c.o: CMakeFiles/fs.dir/flags.make
+CMakeFiles/fs.dir/app/operations.c.o: ../app/operations.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/patrick/Programming/fs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/fs.dir/app/operations.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/fs.dir/app/operations.c.o   -c /home/patrick/Programming/fs/app/operations.c
 
-CMakeFiles/fs.dir/operations.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fs.dir/operations.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/patrick/Programming/fs/operations.c > CMakeFiles/fs.dir/operations.c.i
+CMakeFiles/fs.dir/app/operations.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/fs.dir/app/operations.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/patrick/Programming/fs/app/operations.c > CMakeFiles/fs.dir/app/operations.c.i
 
-CMakeFiles/fs.dir/operations.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fs.dir/operations.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/patrick/Programming/fs/operations.c -o CMakeFiles/fs.dir/operations.c.s
+CMakeFiles/fs.dir/app/operations.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/fs.dir/app/operations.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/patrick/Programming/fs/app/operations.c -o CMakeFiles/fs.dir/app/operations.c.s
 
 # Object files for target fs
 fs_OBJECTS = \
-"CMakeFiles/fs.dir/fs.c.o" \
-"CMakeFiles/fs.dir/operations.c.o"
+"CMakeFiles/fs.dir/app/fs.c.o" \
+"CMakeFiles/fs.dir/app/operations.c.o"
 
 # External object files for target fs
 fs_EXTERNAL_OBJECTS =
 
-fs: CMakeFiles/fs.dir/fs.c.o
-fs: CMakeFiles/fs.dir/operations.c.o
+fs: CMakeFiles/fs.dir/app/fs.c.o
+fs: CMakeFiles/fs.dir/app/operations.c.o
 fs: CMakeFiles/fs.dir/build.make
 fs: CMakeFiles/fs.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/patrick/Programming/fs/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable fs"

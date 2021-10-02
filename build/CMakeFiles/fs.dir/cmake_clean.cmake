@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/fs.dir/fs.c.o"
-  "CMakeFiles/fs.dir/operations.c.o"
+  "CMakeFiles/fs.dir/app/fs.c.o"
+  "CMakeFiles/fs.dir/app/operations.c.o"
   "fs"
   "fs.pdb"
 )

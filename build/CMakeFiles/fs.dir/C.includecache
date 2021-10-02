@@ -6,9 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/patrick/Programming/fs/colors.h
-
-/home/patrick/Programming/fs/fs.c
+/home/patrick/Programming/fs/app/fs.c
 stdio.h
 -
 stdlib.h
@@ -18,9 +16,9 @@ string.h
 dirent.h
 -
 fs.h
-/home/patrick/Programming/fs/fs.h
+/home/patrick/Programming/fs/app/fs.h
 operations.h
-/home/patrick/Programming/fs/operations.h
+/home/patrick/Programming/fs/app/operations.h
 libgen.h
 -
 dirent.h
@@ -36,9 +34,9 @@ sys/stat.h
 getopt.h
 -
 colors.h
-/home/patrick/Programming/fs/colors.h
+/home/patrick/Programming/fs/app/colors.h
 
-/home/patrick/Programming/fs/fs.h
+/home/patrick/Programming/fs/app/fs.h
 sys/stat.h
 -
 stdbool.h
@@ -46,9 +44,9 @@ stdbool.h
 stdint.h
 -
 
-/home/patrick/Programming/fs/operations.c
+/home/patrick/Programming/fs/app/operations.c
 operations.h
-/home/patrick/Programming/fs/operations.h
+/home/patrick/Programming/fs/app/operations.h
 stdio.h
 -
 stdlib.h
@@ -58,11 +56,11 @@ string.h
 stdint.h
 -
 colors.h
-/home/patrick/Programming/fs/colors.h
+/home/patrick/Programming/fs/app/colors.h
 errno.h
 -
 
-/home/patrick/Programming/fs/operations.h
+/home/patrick/Programming/fs/app/operations.h
 fs.h
-/home/patrick/Programming/fs/fs.h
+/home/patrick/Programming/fs/app/fs.h
 
