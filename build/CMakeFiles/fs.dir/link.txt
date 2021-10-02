@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/fs.dir/fs.c.o CMakeFiles/fs.dir/operations.c.o  -o fs 

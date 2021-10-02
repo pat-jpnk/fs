@@ -1,0 +1,59 @@
+#FS
+
+TODO:
+
+- add operations: copy directory, compare directory
+
+- fix copmpiler warnings
+
+- add universal file exclusion arrays
+
+- how to return results generally, add static global stats ? stats for each op ?
+
+- use and check for limitations like "OPENMAX" limits.h
+
+- add failure checks!!!  (malloc returns NULL failure, check: fopen, opendir, readdir)
+
+- add commandline arguments / functionality
+        - use arguments
+        - how to have multiple arguments for exclusion
+        - control spaces with quotes implicitly
+        - add option to ignore duplicate files names ?
+        - file exclusion functionality
+
+- what to do with simlinks
+
+- separate code more 
+
+
+----------------------------------------------------------------------
+
+!!!!!! - starting directory itself aaanot counted in searchStats
+!!!!!! - function getFileType() from stackoverflow (https://stackoverflow.com/questions/56212434/how-to-know-a-files-type)
+!!!!!! - TERMINOLOGY: file or stream aaamostly called 'item' in thaaaprogram
+!!!!!! - filenames "." and ".." are ignored in recursive(...) by default
+
+----------------------------------------------------------------------
+
+nice to have:
+
+- check using valgrind
+- https://github.com/bji/libs3 - use thaaafor amazon S3
+- enable user to create backups of folders 
+- centralize exclusion file
+- create fs.macro to define user macros
+
+
+materials:
+https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
+
+
+1) find all occurences of a snippet of text in all files in current folder and all files contained in all folders contained in the main current folder recursively,
+   daaalay the results nicely
+
+- interpret command 
+- index all ascii files 
+- parse all files for search parameter 
+- save information for successful searches 
+- output search results [summary, stats, nothing]
+

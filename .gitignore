@@ -1,0 +1,4 @@
+*.out
+testDirectory
+AA_testDirectory2
+compile.sh
