@@ -20,6 +20,9 @@
 // getitempath(), danger from directory path
 
 
+
+// TODO: row count starts with 1, column count starts with 0
+
 int main(int argc, char *argv[]) {
     int opt;
     struct options options;
@@ -118,7 +121,7 @@ void recursive(char *path, struct searchIndex* index, struct searchStats* stats)
 
 
 bool filterFileName(const char * item_name) {
-    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0) {
+    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testfile.txt") == 0) {
         return true;
     }
     return false;
@@ -181,11 +184,10 @@ void parseFile(operation op, struct searchIndex* index, struct options options, 
 void parseIndex(struct searchIndex* index, struct options* options) {
     switch(options->function) {
         case SEARCH:
-            printf("search mode");
             parseFile(_search,index,*options,index->size);
             break;
         case REPLACE:
-           // parseFile(_replace,index,*options,index->size);   TODO: implement
+            parseFile(_replace,index,*options,index->size);  // TODO: implement
             break;
         case INFO:
             parseFile(_info,index,*options,index->size);
