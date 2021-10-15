@@ -1,0 +1,28 @@
+how to build 
+
+https://unicode-org.github.io/icu/userguide/icu4c/build.html
+
+
+
+build as static (.a)
+
+"runConfigureICU Linux --enable-static --disable-shared"
+
+in icu4c/source
+
+OR "~/Downloads/icu-release-69-1/icu4c-build$ bash ../icu4c/source/runConfigureICU Linux "
+
+"""
+
+Out-of-source build: It is usually desirable to keep the ICU source file tree clean and have build output files written to a different location. This is called an "out-of-source build". Simply invoke the configure script from the target location:
+~/icu$ git clone export https://github.com/unicode-org/icu.git
+~/icu$ mkdir icu4c-build
+~/icu$ cd icu4c-build
+~/icu/icu4c-build$ ../icu/icu4c/source/runConfigureICU Linux
+~/icu/icu4c-build$ make check
+
+(Note: this example shows a relative path to runConfigureICU. If you experience difficulty, try using an absolute path to runConfigureICU instead.)
+
+"""
+
+!: uft-8 was set a standard econding using "#define U_CHARSET_IS_UTF8 1" before building

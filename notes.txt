@@ -1,5 +1,12 @@
 #FS
 
+
+mentions: 
+
+- ACII vs utf-8 
+
+- erroneously used getdelim function
+
 TODO:
 
 - add operations: copy directory, compare directory

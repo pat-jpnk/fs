@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
                 options.function = REPLACE;
                 options.search_term = optarg;
                 options.replacement_term = argv[3];
-
+                                      
                 if (options.replacement_term == NULL) {
                     fprintf(stderr, "fs: option requires two arguments -- r\n");
                     exit(1);
-                }
+                }  
                 break;
 
             case 'i':
