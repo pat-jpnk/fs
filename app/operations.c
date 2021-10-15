@@ -92,9 +92,9 @@ void _replace(struct searchItem* item, struct options options) {
   char* new_content;
 
 
-  char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); // TODO: check malloc
+  char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); 
   if(buffer == NULL) {
-    fprintf(stderr, "Fatal error, failed to allocate %zu bytes", INITIAL_SIZE);
+    fprintf(stderr, "Fatal error, failed to allocate %u bytes", INITIAL_SIZE);
     abort();
   }
 
@@ -103,8 +103,8 @@ void _replace(struct searchItem* item, struct options options) {
 
   int c;
 
-  int new_len;
-  unsigned int new_index;
+  unsigned int new_len;
+  unsigned int new_index = 0;
 
   while(feof(fp) == 0) {
     if(buffer_index == size) {
@@ -127,6 +127,8 @@ void _replace(struct searchItem* item, struct options options) {
     perror("Error closing file");
   }
 
+  printf("buffer idnex: %lu\n", search_term_len);
+
  
   unsigned int j = 0;
   unsigned int i = buffer_index - 1;
@@ -140,7 +142,7 @@ void _replace(struct searchItem* item, struct options options) {
       bool mismatch = false;
       
       while(mismatch == false) {
-        for(size_t k = 1; k < search_term_len; k++) {
+        for(size_t k = 1; k < search_term_len-1; k++) {
           if(*(buffer+j+k) != options.search_term[k]) {
             mismatch = true;
             break;
@@ -164,11 +166,6 @@ void _replace(struct searchItem* item, struct options options) {
   
   // check occurence array / add content from buffer to new_content
 
-  // buffer_begin / buffer_end
-  // new_begin
-  
-  printf("occ_count %d\n", st_occurence_count);
-  
   st_occurence_index = 0;
 
   if(st_occurence_count > 0) {
@@ -176,40 +173,37 @@ void _replace(struct searchItem* item, struct options options) {
     int stored_begin = 0;
     int stored_end = i;
     new_len = (i - ((int) search_term_len * st_occurence_count)) + ((int) replacement_term_len * st_occurence_count); 
-    new_content = (char*) malloc(new_len * sizeof(char));   // TODO: check malloc fail
+    new_content = (char*) malloc(new_len * sizeof(char));   
     if(new_content == NULL) {
-      fprintf(stderr, "Fatal error, failed to allocate %zu bytes", new_len);
+      fprintf(stderr, "Fatal error, failed to allocate %u bytes", new_len);
       abort();
     }
 
-    new_index = 0;
-
+    //printf("new len: %d\n", new_len);
     while(new_index < new_len) {
-      printf("A");
+      printf("A\n");
       
-     // printf("occurence_index: %d\nst_occurence_count %d\n", st_occurence_index, st_occurence_count);
       if(st_occurence_index <= (st_occurence_count - 1)) {
 
-      printf("B");
-      printf("new index: %d\n", new_index);
+      printf("B\n");
+        printf("st: %d\n",st_occurences[st_occurence_index]);
         if(new_index == st_occurences[st_occurence_index]) {
-          printf("C");
+          printf("C\n");
           for(size_t i = 0; i < replacement_term_len; i++) {
             *(new_content + new_index) = *(options.replacement_term + i);
             stored_begin++;
             new_index++;
           }
-
+     //     printf("repl: %zu\n",replacement_term_len);
           st_occurence_index++;
-
         } else {
-            printf("D");
+            printf("D\n");
             *(new_content + new_index) = *(buffer + stored_begin);
-//            new_index++;//? 
-//            stored_begin++;
+            new_index++;//? 
+            stored_begin++;
         }      
       } else {
-          printf("E");
+          printf("E\n");
           for(size_t k = new_index; k < stored_end; k++) {
             *(new_content + new_index) = *(buffer + j);
             new_index++;
@@ -218,29 +212,28 @@ void _replace(struct searchItem* item, struct options options) {
     }
   }
 
-  printf("newlen %d\n", new_len);
-  free(buffer);   // free stored file contents 
-  
+  free(buffer);     
 
-  //printf("new len: %d\n", new_len);
+    
+  //printf("newlen %u\n", new_len);
 
-  //printf("1st char: %c\n", *(new_content + 0));
-  
-  
-  
   FILE *rp = fopen(item->path, "w+");
   
   
   if(rp == NULL) {
     fprintf(stderr, "Error opening %s\n", item->path);
+    abort();
   }
 
-  for(int u = 0; u < new_len; u++) {
-    fputs((new_content+u), rp);
-  }
+  //printf("nL: %c\n", (*new_content+0));
   
+  for(unsigned int u = 0; u < new_len; u++) {
+    //printf("%u\n",u);
+    fputs((new_content+u), rp);
+    //printf("i:%u %c\n",u,*(new_content + u));
+  }
 
-  close_status = fclose(rp);       // use shared variable for closing
+  close_status = fclose(rp);     
   
  
   if(close_status == EOF) {
