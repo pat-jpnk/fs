@@ -24,7 +24,6 @@ void _search(struct searchItem* item, struct options options) {
 
     if(fp == NULL) {
         fprintf(stderr, "Error opening %s\n", item->path); // e.g. permission denied
-        //return EXIT_FAILURE;
     }
 
     char* buffer = NULL;    
@@ -78,11 +77,6 @@ void _search(struct searchItem* item, struct options options) {
 
 void _replace(struct searchItem* item, struct options options) {
   
-  // TODO: check that delim is not null ptr
-
-
-  // store in buffer 
-
   FILE *fp = fopen(item->path, "r");
 
   if(fp == NULL){
@@ -93,24 +87,17 @@ void _replace(struct searchItem* item, struct options options) {
   size_t replacement_term_len = strlen(options.replacement_term);
 
 
-//  char* buffer = NULL;
-//  size_t len;
-//  ssize_t bytes_read = getdelim(&buffer, &len, EOF, fp);          // The delimiter argument is an int, the value of which the application shall ensure is a character representable as an unsigned char of equal value that terminates the read process.
-                                                                  // If the delimiter argument has any other value, the behavior is undefined.
-
-//  printf("LEN: %lu\n", len);      
-
-//  for(int u = 0; u < 15; u++) {
-//    printf("%c\n", *(buffer + u));
-//  }
-  
-  
   int close_status;
 
   char* new_content;
 
 
-  char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); // TODO: check malloc 
+  char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); // TODO: check malloc
+  if(buffer == NULL) {
+    fprintf(stderr, "Fatal error, failed to allocate %zu bytes", INITIAL_SIZE);
+    abort();
+  }
+
   unsigned int buffer_index = 0; 
   unsigned int size = INITIAL_SIZE;
 
@@ -190,6 +177,11 @@ void _replace(struct searchItem* item, struct options options) {
     int stored_end = i;
     new_len = (i - ((int) search_term_len * st_occurence_count)) + ((int) replacement_term_len * st_occurence_count); 
     new_content = (char*) malloc(new_len * sizeof(char));   // TODO: check malloc fail
+    if(new_content == NULL) {
+      fprintf(stderr, "Fatal error, failed to allocate %zu bytes", new_len);
+      abort();
+    }
+
     new_index = 0;
 
     while(new_index < new_len) {
