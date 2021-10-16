@@ -12,10 +12,7 @@
 #include <getopt.h>
 #include "colors.h"
 
-// ulimit -a "open files" 
-// make rootpath argument
-// getitempath(), danger from directory path
-
+// ulimit -a "open files"
 
 
 // TODO: row count starts with 1, column count starts with 0
@@ -61,19 +58,14 @@ int main(int argc, char *argv[]) {
         }   
     }
 
-    searchStats stats = initSearchStats();
-    
     struct searchIndex index;
     index.size = 0;
     
-    recursive(ROOTPATH, &index, &stats);         // searchIndex populated when thaaafinaaaes
+    recursive(ROOTPATH, &index);         // searchIndex populated when thaaafinaaaes
     
-   // printIndex(&index);  --HELPER-- 
     
     parseIndex(&index, &options);       // options.function needs to be set, or segfaults
     
-   //  printStats(&stats);  --HELPER--
-   
     return 0;
 }
 
@@ -84,7 +76,7 @@ void addToIndex(struct searchIndex* si, const char* item_path, ino_t serial, fil
     si->size++;
 }
 
-void recursive(char *path, struct searchIndex* index, struct searchStats* stats) {
+void recursive(char *path, struct searchIndex* index) {
     struct dirent *dp;
     DIR *dir = opendir(path);
 
@@ -99,21 +91,18 @@ void recursive(char *path, struct searchIndex* index, struct searchStats* stats)
             fileType type = getFileStatus(item_path);
 
             switch(type) {
-                case REGULAR:
-                    stats->file_count++;                                                // update stats
+                case REGULAR:                                               
                     addToIndex(index, item_path, dp->d_ino, type);
                     break;
 
                 case DIREC:
-                        stats->dir_count++;
-                        getItemPath(path, item_name, &directory_path[0]);               // update stats
-                        recursive(directory_path, index, stats);
+                        getItemPath(path, item_name, &directory_path[0]);               
+                        recursive(directory_path, index);
                     break;
 
-                case SYMLINK:   // TODO: implement
-                        stats->dir_count++;
-                        getItemPath(path, item_name, &directory_path[0]);               // update stats
-                        recursive(directory_path, index, stats);
+                case SYMLINK:
+                        getItemPath(path, item_name, &directory_path[0]);               
+                        recursive(directory_path, index);
                     break;
 
                 default:
@@ -126,7 +115,7 @@ void recursive(char *path, struct searchIndex* index, struct searchStats* stats)
 
 
 bool filterFileName(const char * item_name) {
-    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testxyz") == 0) {
+    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testfile.txt") == 0) {
         return true;
     }
     return false;
@@ -161,14 +150,6 @@ fileType getFileStatus (const char* path) {
     return fileType;
 }
 
-struct searchStats initSearchStats() {
-    struct searchStats stats;
-    stats.file_count = 0;
-    stats.dir_count = 0;
-    stats.search_count = 0;
-    stats.alter_count = 0;
-    return stats;
-}
 
 /**
  * @param const char* path      - current base path
@@ -200,16 +181,3 @@ void parseIndex(struct searchIndex* index, struct options* options) {
             break;
     }
 }
-
-// ############## helper #################
-void printIndex(struct searchIndex* index) {
-    for(uint64_t k = 0; k < index->size; k++) {
-        //printf("RES: %llu > %s > %llu \n", k, index->items[k].path, index->items[k].st_ino);
-    }
-}
-
-void printStats(struct searchStats* stats) {
-    //printf("\nstats:\nf: %llu\nd: %llu\ns: %llu\na: %llu\n", stats->file_count, stats->dir_count, stats->search_count, stats->alter_count);
-    printf(KWHT"\n%lu directories / %lu files\n"KRESET, stats->dir_count, stats->file_count);
-}
-// ######################################## 

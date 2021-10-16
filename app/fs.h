@@ -63,10 +63,6 @@ bool filterFileName(const char * item_name);
 void parseFile(operation op, struct searchIndex* index, struct options options, uint64_t size);
 void parseIndex(struct searchIndex* index, struct options* options);
 void getItemPath(const char* path, const char* item_name, char* directory_path);
-void recursive(char *basePath, struct searchIndex* index, struct searchStats* stats);
-
-// helper functions
-void printStats(struct searchStats* stats);
-void printIndex(struct searchIndex* index);
+void recursive(char *basePath, struct searchIndex* index);
 
 #endif

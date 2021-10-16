@@ -7,9 +7,6 @@ mentions:
 - erroneously used getdelim function
 
 
-BUG: 
-
-- for replace, last char missing ?
 
 TODO:
 

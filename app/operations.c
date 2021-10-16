@@ -6,15 +6,6 @@
 #include "colors.h"
 #include <errno.h>
 
-
-/**
- * here functions that conform to the defined type 'operation' are defined
- * they are a parameter in the method parseFile(...) defined in fs.c
- * 
- * must have an equivalent in "enum func" in fs.h
- **/
-
-
 void _search(struct searchItem* item, struct options options) {
   FILE *fp = fopen(item->path, "r");
   
