@@ -72,10 +72,8 @@ void _search(struct searchItem* item, struct options options) {
 // TODO: second argument "" => segfault
 
 
-#define INITIAL_SIZE 100
 
 void _replace(struct searchItem* item, struct options options) {
-  
 
   // ############## read file content into buffer ######################
 
@@ -83,6 +81,7 @@ void _replace(struct searchItem* item, struct options options) {
 
   if(fp == NULL){
     fprintf(stderr, "Error opening %s\n", item->path);
+    abort();
   }
 
   size_t search_term_len = strlen(options.search_term);
@@ -92,15 +91,15 @@ void _replace(struct searchItem* item, struct options options) {
   int c;
 
   unsigned int buffer_index = 0; 
-  unsigned int size = INITIAL_SIZE;
+  unsigned int size = OI_INITIAL_SIZE;
   unsigned int new_len;
   unsigned int new_index = 0;
 
   char* new_content;
-  char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); 
+  char* buffer = (char*) malloc(OI_INITIAL_SIZE * sizeof(char)); 
 
   if(buffer == NULL) {
-    fprintf(stderr, "Fatal error, failed to allocate %u bytes", INITIAL_SIZE);
+    fprintf(stderr, "Fatal error, failed to allocate %u bytes", OI_INITIAL_SIZE);
     abort();
   }
 
@@ -210,7 +209,6 @@ void _replace(struct searchItem* item, struct options options) {
   // write to file
   
   FILE *rp = fopen(item->path, "w+");
-    
   if(rp == NULL) {
     fprintf(stderr, "Error opening %s\n", item->path);
     abort();
@@ -220,13 +218,11 @@ void _replace(struct searchItem* item, struct options options) {
     fputc(*(new_content+u),rp);
   }
 
-  close_status = fclose(rp);     
-  
+  close_status = fclose(rp);       
   if(close_status == EOF) {
     perror("Error closing file");
   } 
 
-  
   free(new_content);
 
 }
