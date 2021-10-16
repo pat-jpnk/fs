@@ -40,14 +40,19 @@ int main(int argc, char *argv[]) {
                 break;
 
             case 'r':
+                if (argc != 4) {
+                    fprintf(stderr, "fs: option requires two arguments -- r\n");
+                    exit(1);
+                }
+
+                if(strlen(argv[2]) == 0) {
+                    fprintf(stderr, "fs: search term may not be zero-width\n");
+                    exit(1);
+                }
                 options.function = REPLACE;
                 options.search_term = optarg;
                 options.replacement_term = argv[3];
-                                      
-                if (options.replacement_term == NULL) {
-                    fprintf(stderr, "fs: option requires two arguments -- r\n");
-                    exit(1);
-                }  
+                                        
                 break;
 
             case 'i':

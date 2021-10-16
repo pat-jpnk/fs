@@ -159,17 +159,7 @@ void _replace(struct searchItem* item, struct options options) {
     else {
       j++;
     } 
-  }
-
-  /**
-  for(int p = 0; p < st_occurence_index; p++) {
-    printf("%d:  %d\n", p, st_occurences[p]);
-
-  }
-  **/
-
-  printf("occurenc cout: %d\n", st_occurence_count);
-  
+  }  
 
   if(st_occurence_count > 0) {
     int stored_index = 0;
@@ -187,8 +177,6 @@ void _replace(struct searchItem* item, struct options options) {
 
     while(new_index < new_len) {
       printf("A\n");
-
-      printf("%d  %d\n", st_occurence_index, st_occurence_count);
 
       if(st_occurence_index < (st_occurence_count)) {
         printf("B\n");
@@ -219,6 +207,7 @@ void _replace(struct searchItem* item, struct options options) {
 
   free(buffer);
 
+  // write to file
   
   FILE *rp = fopen(item->path, "w+");
     
@@ -226,11 +215,8 @@ void _replace(struct searchItem* item, struct options options) {
     fprintf(stderr, "Error opening %s\n", item->path);
     abort();
   }
-
-  //fputs((new_content),rp);
   
   for(int u = 0; u < new_len; u++) {
-    //printf("%c\n", *(new_content+u));
     fputc(*(new_content+u),rp);
   }
 
@@ -241,87 +227,7 @@ void _replace(struct searchItem* item, struct options options) {
   } 
 
   
-  free(new_content); 
-
-
-  /**
-  if(st_occurence_count > 0) {
-
-    st_occurence_index = 0;
-    int stored_begin = 0;     // buffer index
-    int stored_end = i;       // buffer end 
-    
-    new_len = (i - ((int) search_term_len * st_occurence_count)) + ((int) replacement_term_len * st_occurence_count); 
-    new_content = (char*) malloc(new_len * sizeof(char));   
-
-    if(new_content == NULL) {
-      fprintf(stderr, "Fatal error, failed to allocate %u bytes", new_len);
-      abort();
-    }
-
-    int sr = ((int) search_term_len) - ((int) replacement_term_len);
-
-
-    while(new_index < new_len) {
-      
-      if(st_occurence_index <= (st_occurence_count - 1)) {
-
-        if(new_index == (st_occurences[st_occurence_index])) {
-
-          for(size_t i = 0; i < replacement_term_len; i++) {
-            *(new_content + new_index) = *(options.replacement_term + i);
-            //stored_begin++;
-            new_index++;
-          }
-
-          stored_begin += (int) search_term_len;
-
-          // add difference if replacement term is smaller than search term
-
-          st_occurence_index++;
-        } else {
-            *(new_content + new_index) = *(buffer + stored_begin);
-            new_index++;  //
-            stored_begin++;
-        }      
-      } else {
-          for(size_t k = stored_begin; k < stored_end; k++) {
-            *(new_content + new_index) = *(buffer + k);
-            new_index++;
-          }
-      }
-    }
-  }
-
-  **/
- // free(buffer);     
-
-
-
-  // ############## write new_content to file ######################
-
-/**
-  
-  FILE *rp = fopen(item->path, "w+");
-    
-  if(rp == NULL) {
-    fprintf(stderr, "Error opening %s\n", item->path);
-    abort();
-  }
-
-
-  fputs((new_content),rp);
-
-  close_status = fclose(rp);     
-  
- 
-  if(close_status == EOF) {
-    perror("Error closing file");
-  } 
-
-  **/
-//  free(new_content); 
-  
+  free(new_content);
 
 }
 
