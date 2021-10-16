@@ -19,6 +19,83 @@
 // TODO: change method signature, decide if to return int 
 
 void _search(struct searchItem* item, struct options options) {
+  FILE *fp = fopen(item->path, "r");
+  
+  if(fp == NULL) {
+        fprintf(stderr, "Error opening %s\n", item->path); // e.g. permission denied
+    }
+
+  size_t search_term_len = strlen(options.search_term);
+  unsigned int size = OI_INITIAL_SIZE;
+  int close_status;
+
+
+  char* buffer = (char*) malloc((size * sizeof(char)));
+  unsigned int buffer_index = 0;
+
+  if(buffer == NULL) {
+    fprintf(stderr, "Fatal error, failed to allocate %u bytes", OI_INITIAL_SIZE);
+    abort();
+  }
+  
+  while(feof(fp) == 0) {
+    if(buffer_index == size) {
+      buffer = (char*) realloc(buffer, (size * 1.5));
+      size *= 1.5;
+    }
+    int c = fgetc(fp);
+    if(c != EOF) {
+      *(buffer + buffer_index) = c; 
+      buffer_index += 1;
+    } else {
+      break;
+    }
+  }
+
+  close_status = fclose(fp);
+  
+  if(close_status == EOF) {
+    perror("Error closing file");
+  }
+
+
+  uint64_t i = (uint64_t) buffer_index;
+  uint64_t j = 0;
+  uint64_t line_count = 1;
+  uint64_t j_cache = 0;
+
+  if(buffer_index > 0) {
+        while(j < i) {
+            if(*(buffer+j) == '\n') {
+                line_count++;
+                j_cache = 0;                // for counting position in line in finding / TODO: add better name 
+            }
+            if(*(buffer+j) == options.search_term[0]) {                           
+                bool mismatch = false;
+                while(mismatch == false) {  
+                    for(size_t k = 1; k < search_term_len; k++) {
+                        if((*(buffer+j+k) != options.search_term[k])) {
+                            mismatch = true;
+                            break;
+                        }
+                    }
+                    if(mismatch == false) {
+                        printf(KWHT"%lu:%lu %s\n"KRESET, line_count, j_cache, item->path);                    
+                    }
+                    break;
+                } 
+            }
+            j_cache++;
+            j++;
+        }
+    } else {
+      fprintf(stderr,KNRM"%s not read, file empty\n"KRESET, item->path); // triggers on empty file
+    }
+}
+
+/**
+
+void _search(struct searchItem* item, struct options options) {
     FILE *fp = fopen(item->path, "r");                               
 
     if(fp == NULL) {
@@ -67,7 +144,7 @@ void _search(struct searchItem* item, struct options options) {
     }
     fclose(fp);
 }
-
+**/
 
 // TODO: second argument "" => segfault
 

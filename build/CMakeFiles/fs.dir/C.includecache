@@ -45,6 +45,8 @@ stdbool.h
 -
 stdint.h
 -
+sys/types.h
+-
 
 /home/patrick/Programming/fs/app/operations.c
 operations.h
