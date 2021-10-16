@@ -6,7 +6,16 @@ mentions:
 
 - erroneously used getdelim function
 
+
+BUG: 
+
+- for replace, last char missing ?
+
 TODO:
+
+- add Path parameter option
+
+- streamline fs.h
 
 - remove file restiction for testing
 

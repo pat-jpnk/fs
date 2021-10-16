@@ -15,9 +15,6 @@
  **/
 
 
-// TODO: add color to print statements
-// TODO: change method signature, decide if to return int 
-
 void _search(struct searchItem* item, struct options options) {
   FILE *fp = fopen(item->path, "r");
   
@@ -68,7 +65,7 @@ void _search(struct searchItem* item, struct options options) {
         while(j < i) {
             if(*(buffer+j) == '\n') {
                 line_count++;
-                j_cache = 0;                // for counting position in line in finding / TODO: add better name 
+                j_cache = 0;             
             }
             if(*(buffer+j) == options.search_term[0]) {                           
                 bool mismatch = false;
@@ -92,63 +89,6 @@ void _search(struct searchItem* item, struct options options) {
       fprintf(stderr,KNRM"%s not read, file empty\n"KRESET, item->path); // triggers on empty file
     }
 }
-
-/**
-
-void _search(struct searchItem* item, struct options options) {
-    FILE *fp = fopen(item->path, "r");                               
-
-    if(fp == NULL) {
-        fprintf(stderr, "Error opening %s\n", item->path); // e.g. permission denied
-    }
-
-    char* buffer = NULL;    
-    size_t len;
-    size_t search_term_len = strlen(options.search_term);
-    ssize_t bytes_read = getdelim(&buffer, &len, EOF, fp); 
-    ssize_t errval = -1;                                      // TODO: make global or not a variable, also in other methods 
-
-    if(bytes_read != errval) {
-        // thaaacode wont be reached if file aaaempty
-        //printf("item :%s -- char of buffer: %c >> SIZE: %zu\n",item->path,*(buffer+1), len);
-        uint64_t i = (uint64_t) len;
-        uint64_t j = 0;
-        uint64_t line_count = 1;
-        uint64_t j_cache = 0;
-
-        while(j < i) {
-            if(*(buffer+j) == '\n') {
-                line_count++;
-                j_cache = 0;                // for counting position in line in finding / TODO: add better name 
-            }
-            if(*(buffer+j) == options.search_term[0]) {                           
-                bool mismatch = false;
-                while(mismatch == false) {  
-                    for(size_t k = 1; k < search_term_len; k++) {
-                        if((*(buffer+j+k) != options.search_term[k])) {
-                            mismatch = true;
-                            break;
-                        }
-                    }
-                    if(mismatch == false) {
-                        printf(KWHT"%lu:%lu %s\n"KRESET, line_count, j_cache, item->path);                    
-                    }
-                    break;
-                } 
-            }
-            j_cache++;
-            j++;
-        }
-    } else {
-        fprintf(stderr,KNRM"%s not read, file empty\n"KRESET, item->path); // triggers on empty file
-    }
-    fclose(fp);
-}
-**/
-
-// TODO: second argument "" => segfault
-
-
 
 void _replace(struct searchItem* item, struct options options) {
 
@@ -237,6 +177,8 @@ void _replace(struct searchItem* item, struct options options) {
     } 
   }  
 
+  // ##############  write output to new_content  ######################
+
   if(st_occurence_count > 0) {
     int stored_index = 0;
     int stored_end = i;
@@ -252,12 +194,9 @@ void _replace(struct searchItem* item, struct options options) {
     }
 
     while(new_index < new_len) {
-      printf("A\n");
 
       if(st_occurence_index < (st_occurence_count)) {
-        printf("B\n");
         if(new_index == (st_occurences[st_occurence_index])) {
-          printf("C\n");
           for(size_t i = 0; i < replacement_term_len; i++) {
             *(new_content + new_index) = *(options.replacement_term + i);
             new_index++;
@@ -266,13 +205,11 @@ void _replace(struct searchItem* item, struct options options) {
           stored_index += (int) search_term_len;
           st_occurence_index++;
         } else {
-          printf("D\n");
             *(new_content + new_index) = *(buffer + stored_index);
             new_index++;  
             stored_index++;
         }      
       } else {
-        printf("E\n");
           for(size_t k = stored_index; k < stored_end; k++) {
             *(new_content + new_index) = *(buffer + k);
             new_index++;
@@ -283,7 +220,7 @@ void _replace(struct searchItem* item, struct options options) {
 
   free(buffer);
 
-  // write to file
+  // ##############  write output to file  ######################
   
   FILE *rp = fopen(item->path, "w+");
   if(rp == NULL) {
@@ -291,7 +228,7 @@ void _replace(struct searchItem* item, struct options options) {
     abort();
   }
   
-  for(int u = 0; u < new_len; u++) {
+  for(int u = 0; u <= new_len; u++) {
     fputc(*(new_content+u),rp);
   }
 

@@ -6,14 +6,11 @@
 #include "operations.h"
 #include <libgen.h>
 #include <dirent.h>
-#include <sys/types.h>
 #include <limits.h>
 #include <errno.h>      // defines errno
-		                    // errno gets set by opendir() from dirent.h
-#include <sys/stat.h>
+		                // errno gets set by opendir() from dirent.h
 #include <getopt.h>
 #include "colors.h"
-
 
 // ulimit -a "open files" 
 // make rootpath argument
@@ -114,6 +111,9 @@ void recursive(char *path, struct searchIndex* index, struct searchStats* stats)
                     break;
 
                 case SYMLINK:   // TODO: implement
+                        stats->dir_count++;
+                        getItemPath(path, item_name, &directory_path[0]);               // update stats
+                        recursive(directory_path, index, stats);
                     break;
 
                 default:
@@ -126,7 +126,7 @@ void recursive(char *path, struct searchIndex* index, struct searchStats* stats)
 
 
 bool filterFileName(const char * item_name) {
-    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testfile.txt") == 0) {
+    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testxyz") == 0) {
         return true;
     }
     return false;
@@ -192,7 +192,7 @@ void parseIndex(struct searchIndex* index, struct options* options) {
             parseFile(_search,index,*options,index->size);
             break;
         case REPLACE:
-            parseFile(_replace,index,*options,index->size);  // TODO: implement
+            parseFile(_replace,index,*options,index->size);  
             break;
         case INFO:
             parseFile(_info,index,*options,index->size);
