@@ -226,12 +226,16 @@ void _replace(struct searchItem* item, struct options options) {
   }
 
   //printf("nL: %c\n", (*new_content+0));
+
   
-  for(unsigned int u = 0; u < new_len; u++) {
+//  for(unsigned int u = 0; u < new_len; u++) {
     //printf("%u\n",u);
-    fputs((new_content+u), rp);
+  //  fputs((new_content+u), rp);
     //printf("i:%u %c\n",u,*(new_content + u));
-  }
+ // }
+
+  fputs((new_content),rp);
+
 
   close_status = fclose(rp);     
   

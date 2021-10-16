@@ -8,6 +8,8 @@ mentions:
 
 TODO:
 
+- remove file restiction for testing
+
 - check choices for types
 
 - add operations: copy directory, compare directory
