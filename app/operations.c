@@ -6,6 +6,7 @@
 #include "colors.h"
 #include <errno.h>
 
+
 /**
  * here functions that conform to the defined type 'operation' are defined
  * they are a parameter in the method parseFile(...) defined in fs.c
@@ -15,10 +16,8 @@
 
 
 // TODO: add color to print statements
-
 // TODO: change method signature, decide if to return int 
 
-// if operation: SEARCH -> _search function = options[bool capitalization;, bool spacing, char* search_term;]
 void _search(struct searchItem* item, struct options options) {
     FILE *fp = fopen(item->path, "r");                               
 
@@ -77,6 +76,9 @@ void _search(struct searchItem* item, struct options options) {
 
 void _replace(struct searchItem* item, struct options options) {
   
+
+  // ############## read file content into buffer ######################
+
   FILE *fp = fopen(item->path, "r");
 
   if(fp == NULL){
@@ -86,25 +88,21 @@ void _replace(struct searchItem* item, struct options options) {
   size_t search_term_len = strlen(options.search_term);
   size_t replacement_term_len = strlen(options.replacement_term);
 
-
   int close_status;
+  int c;
+
+  unsigned int buffer_index = 0; 
+  unsigned int size = INITIAL_SIZE;
+  unsigned int new_len;
+  unsigned int new_index = 0;
 
   char* new_content;
-
-
   char* buffer = (char*) malloc(INITIAL_SIZE * sizeof(char)); 
+
   if(buffer == NULL) {
     fprintf(stderr, "Fatal error, failed to allocate %u bytes", INITIAL_SIZE);
     abort();
   }
-
-  unsigned int buffer_index = 0; 
-  unsigned int size = INITIAL_SIZE;
-
-  int c;
-
-  unsigned int new_len;
-  unsigned int new_index = 0;
 
   while(feof(fp) == 0) {
     if(buffer_index == size) {
@@ -119,123 +117,135 @@ void _replace(struct searchItem* item, struct options options) {
       break;
     }
   }
-  
 
   close_status = fclose(fp);
 
   if(close_status == EOF) {
     perror("Error closing file");
   }
+  
+  // ##############  record occurences  ######################
 
-  printf("buffer idnex: %lu\n", search_term_len);
-
- 
+  
   unsigned int j = 0;
-  unsigned int i = buffer_index - 1;
+  unsigned int i = buffer_index;
 
   int st_occurences[100];
   int st_occurence_index = 0;
-  int st_occurence_count = 0;
 
   while(j < i) {
     if(*(buffer+j) == options.search_term[0]) {
       bool mismatch = false;
-      
+
       while(mismatch == false) {
-        for(size_t k = 1; k < search_term_len-1; k++) {
+        for(size_t k = 0; k < search_term_len; k++) {
           if(*(buffer+j+k) != options.search_term[k]) {
             mismatch = true;
             break;
           }
-        } 
+        }
         
         if(mismatch == false) {
-          st_occurences[st_occurence_index] = j;
+          st_occurences[st_occurence_index] = j;   
           st_occurence_index++;
-          st_occurence_count++;
-          j += replacement_term_len;
-        } else {
+          j += search_term_len;   
+        } else {  
           j++;
         }
       }
-    } else {
+    }
+    else {
       j++;
     } 
   }
-  
-  
-  // check occurence array / add content from buffer to new_content
 
-  st_occurence_index = 0;
+
+  for(int p = 0; p < st_occurence_index; p++) {
+    printf("%d:  %d\n", p, st_occurences[p]);
+
+  }
+
+  // ############## write new_content from buffer / occurences ######################
+
+  // st_occurence_count 
+
+  // stored_begin 
+  // stored_end
+
+  // new_len
+
+
+
+  // ################################################################################
+
+  /**
 
   if(st_occurence_count > 0) {
+
+    st_occurence_index = 0;
+    int stored_begin = 0;     // buffer index
+    int stored_end = i;       // buffer end 
     
-    int stored_begin = 0;
-    int stored_end = i;
     new_len = (i - ((int) search_term_len * st_occurence_count)) + ((int) replacement_term_len * st_occurence_count); 
     new_content = (char*) malloc(new_len * sizeof(char));   
+
     if(new_content == NULL) {
       fprintf(stderr, "Fatal error, failed to allocate %u bytes", new_len);
       abort();
     }
 
-    //printf("new len: %d\n", new_len);
+    int sr = ((int) search_term_len) - ((int) replacement_term_len);
+
+
     while(new_index < new_len) {
-      printf("A\n");
       
       if(st_occurence_index <= (st_occurence_count - 1)) {
 
-      printf("B\n");
-        printf("st: %d\n",st_occurences[st_occurence_index]);
-        if(new_index == st_occurences[st_occurence_index]) {
-          printf("C\n");
+        if(new_index == (st_occurences[st_occurence_index])) {
+
           for(size_t i = 0; i < replacement_term_len; i++) {
             *(new_content + new_index) = *(options.replacement_term + i);
-            stored_begin++;
+            //stored_begin++;
             new_index++;
           }
-     //     printf("repl: %zu\n",replacement_term_len);
+
+          stored_begin += (int) search_term_len;
+
+          // add difference if replacement term is smaller than search term
+
           st_occurence_index++;
         } else {
-            printf("D\n");
             *(new_content + new_index) = *(buffer + stored_begin);
-            new_index++;//? 
+            new_index++;  //
             stored_begin++;
         }      
       } else {
-          printf("E\n");
-          for(size_t k = new_index; k < stored_end; k++) {
-            *(new_content + new_index) = *(buffer + j);
+          for(size_t k = stored_begin; k < stored_end; k++) {
+            *(new_content + new_index) = *(buffer + k);
             new_index++;
           }
       }
     }
   }
 
+  **/
   free(buffer);     
 
-    
-  //printf("newlen %u\n", new_len);
 
+
+  // ############## write new_content to file ######################
+
+/**
+  
   FILE *rp = fopen(item->path, "w+");
-  
-  
+    
   if(rp == NULL) {
     fprintf(stderr, "Error opening %s\n", item->path);
     abort();
   }
 
-  //printf("nL: %c\n", (*new_content+0));
-
-  
-//  for(unsigned int u = 0; u < new_len; u++) {
-    //printf("%u\n",u);
-  //  fputs((new_content+u), rp);
-    //printf("i:%u %c\n",u,*(new_content + u));
- // }
 
   fputs((new_content),rp);
-
 
   close_status = fclose(rp);     
   
@@ -244,8 +254,9 @@ void _replace(struct searchItem* item, struct options options) {
     perror("Error closing file");
   } 
 
+  **/
   free(new_content); 
-
+  
 
 }
 
