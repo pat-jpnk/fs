@@ -37,22 +37,13 @@ typedef struct options {
 typedef struct searchItem {
     ino_t st_ino;                           // File serial number defined in <sys/stat.h>
     char path[MAX_PATH_SIZE];               // changed from char*
-    fileType type;                          // enum defined above 
-    bool altered;                           // initilaize to false 
-    char res_preview[MAX_PREVIEW_SIZE];     // holds preview if search successful
+    fileType type;                          // enum defined above
 } searchItem;
 
 typedef struct searchIndex {
     struct searchItem items[MAX_SEARCH_ITEMS];
     uint64_t size;
 } searchIndex;
-
-typedef struct searchStats {
-    uint64_t file_count;                    // number of files searched 
-    uint64_t dir_count;                     // number of directories searched
-    uint64_t search_count;                  // number of successful searches
-    uint64_t alter_count;                   // number of files altered 
-} searchStats;
 
 typedef void (*operation) (struct searchItem*, struct options);         // function pointer parameter accepted by parseFile(...)
 

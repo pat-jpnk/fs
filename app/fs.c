@@ -14,9 +14,6 @@
 
 // ulimit -a "open files"
 
-
-// TODO: row count starts with 1, column count starts with 0
-
 int main(int argc, char *argv[]) {
     int opt;
     struct options options;
@@ -61,10 +58,8 @@ int main(int argc, char *argv[]) {
     struct searchIndex index;
     index.size = 0;
     
-    recursive(ROOTPATH, &index);         // searchIndex populated when thaaafinaaaes
-    
-    
-    parseIndex(&index, &options);       // options.function needs to be set, or segfaults
+    recursive(ROOTPATH, &index); 
+    parseIndex(&index, &options);     
     
     return 0;
 }

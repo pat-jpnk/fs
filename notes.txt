@@ -6,46 +6,23 @@ mentions:
 
 - erroneously used getdelim function
 
+- icu4c
 
 
 TODO:
 
 - add Path parameter option
 
-- streamline fs.h
 
 - remove file restiction for testing
-
-- check choices for types
 
 - add operations: copy directory, compare directory
 
 - use and check for limitations like "OPENMAX" limits.h
 
-- add commandline arguments / functionality
-        - use arguments
-        - how to have multiple arguments for exclusion
-        - control spaces with quotes implicitly
-        - add option to ignore duplicate files names ?
-        - file exclusion functionality
+- add format specifiers for filenames / file exclusion
 
-- build support for simlinks
-
-
-
-----------------------------------------------------------------------
-
-!!!!!! - starting directory itself aaanot counted in searchStats
-!!!!!! - function getFileType() from stackoverflow (https://stackoverflow.com/questions/56212434/how-to-know-a-files-type)
-!!!!!! - TERMINOLOGY: file or stream aaamostly called 'item' in thaaaprogram
-!!!!!! - filenames "." and ".." are ignored in recursive(...) by default
-
-----------------------------------------------------------------------
-
-nice to have:
-
-- check using valgrind
-- centralize file exclusion
+- valgrind
 
 materials:
 https://pubs.opengroup.org/onlinepubs/7908799/xsh/dirent.h.html
