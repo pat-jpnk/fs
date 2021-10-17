@@ -13,6 +13,7 @@ TODO:
 
 - add Path parameter option
 
+- use // ulimit -a "open files" ?
 
 - remove file restiction for testing
 
