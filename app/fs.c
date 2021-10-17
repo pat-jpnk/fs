@@ -12,7 +12,6 @@
 #include <getopt.h>
 #include "colors.h"
 
-// ulimit -a "open files"
 
 int main(int argc, char *argv[]) {
     int opt;
@@ -146,10 +145,6 @@ fileType getFileStatus (const char* path) {
 }
 
 
-/**
- * @param const char* path      - current base path
- * @param const char* item_name - item name
- **/
 void getItemPath(const char* path, const char* item_name, char* directory_path) {                   
     strcat(directory_path,path);                                                                        
     strcat(directory_path, item_name); 
