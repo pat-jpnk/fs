@@ -11,6 +11,12 @@ mentions:
 
 TODO:
 
+- change details, char pointer vs char array
+
+- replace strcpy()
+
+- check operations.h (line 196 conversion error)
+
 - add Path parameter option
 
 - use // ulimit -a "open files" ?
