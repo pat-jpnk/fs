@@ -12,7 +12,6 @@
 #include <getopt.h>
 #include "colors.h"
 
-// ulimit -a "open files"
 
 int main(int argc, char *argv[]) {
     int opt;
