@@ -9,7 +9,6 @@
 #define ROOTPATH "./"             
 #define MAX_PATH_SIZE 1024                  // in characters
 #define MAX_SEARCH_ITEMS 150                // set to something smart, like OPEN_MAX
-#define MAX_PREVIEW_SIZE 512                // ????
 
 typedef enum fileType {
     SOCKET,

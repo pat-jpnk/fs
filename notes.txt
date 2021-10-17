@@ -11,8 +11,13 @@ mentions:
 
 TODO:
 
-- add Path parameter option
+- change details, char pointer vs char array
 
+- replace strcpy()
+
+- check operations.h (line 196 conversion error)
+
+- add Path parameter option
 
 - remove file restiction for testing
 
