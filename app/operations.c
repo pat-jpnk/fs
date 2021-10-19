@@ -14,7 +14,7 @@ void _search(struct searchItem* item, struct options options) {
     }
 
   size_t search_term_len = strlen(options.search_term);
-  unsigned int size = OI_INITIAL_SIZE;
+  unsigned int size = BF_INITIAL_SIZE;
   int close_status;
 
 
@@ -22,7 +22,7 @@ void _search(struct searchItem* item, struct options options) {
   unsigned int buffer_index = 0;
 
   if(buffer == NULL) {
-    fprintf(stderr, "Fatal error, failed to allocate %u bytes", OI_INITIAL_SIZE);
+    fprintf(stderr, "Fatal error, failed to allocate %u bytes", BF_INITIAL_SIZE);
     abort();
   }
   
@@ -99,15 +99,15 @@ void _replace(struct searchItem* item, struct options options) {
   int c;
 
   unsigned int buffer_index = 0; 
-  unsigned int size = OI_INITIAL_SIZE;
+  unsigned int size = BF_INITIAL_SIZE;
   unsigned int new_len;
   unsigned int new_index = 0;
 
   char* new_content;
-  char* buffer = (char*) malloc(OI_INITIAL_SIZE * sizeof(char)); 
+  char* buffer = (char*) malloc(BF_INITIAL_SIZE * sizeof(char)); 
 
   if(buffer == NULL) {
-    fprintf(stderr, "Fatal error, failed to allocate %u bytes", OI_INITIAL_SIZE);
+    fprintf(stderr, "Fatal error, failed to allocate %u bytes", BF_INITIAL_SIZE);
     abort();
   }
 
@@ -137,7 +137,7 @@ void _replace(struct searchItem* item, struct options options) {
   unsigned int j = 0;
   unsigned int i = buffer_index;
 
-  int st_occurences[100];
+  int st_occurences[OI_INITIAL_SIZE];
   int st_occurence_index = 0;
   int st_occurence_count = 0;
 

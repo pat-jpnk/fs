@@ -9,4 +9,4 @@ build:
 
 
 help:
-  - "./fs -i" in /build
+  - "./fs" in /build
