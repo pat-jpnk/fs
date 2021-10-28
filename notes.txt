@@ -11,6 +11,8 @@ mentions:
 
 TODO:
 
+- add pattern matching for ignoring files + static file
+
 - change details, char pointer vs char array
 
 - replace strcpy()

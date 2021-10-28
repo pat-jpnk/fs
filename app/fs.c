@@ -109,7 +109,7 @@ void recursive(char *path, struct searchIndex* index) {
 
 
 bool filterFileName(const char * item_name) {
-    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "testfile.txt") == 0) {
+    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0) {
         return true;
     }
     return false;
