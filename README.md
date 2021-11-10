@@ -11,7 +11,7 @@ build:
 help:
   - "./fs" in /build
 
-> search -s [search term] 
-> info -i 
-> replace -r [target term] [replacement term] 
+> search -s [search term]  
+> info -i  
+> replace -r [target term] [replacement term]  
 
