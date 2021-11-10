@@ -83,8 +83,8 @@ void _search(struct searchItem* item, struct options options) {
 
 void _replace(struct searchItem* item, struct options options) {
 
-  // ############## read file content into buffer ######################
 
+  // ############## read file content into buffer ######################
 
   printf("%s\n", item->path);
 
