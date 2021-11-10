@@ -22,13 +22,9 @@ TODO:
 
 - change details, char pointer vs char array
 
-- check operations.h (line 196 conversion error)
-
 - add Path parameter option
 
 - use // ulimit -a "open files" ?
-
-- remove file restiction for testing
 
 - add operations: copy directory, compare directory
 
