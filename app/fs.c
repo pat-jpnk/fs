@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <bsd/string.h>
 #include <dirent.h>
 #include "fs.h"
 #include "operations.h"
@@ -8,7 +9,7 @@
 #include <dirent.h>
 #include <limits.h>
 #include <errno.h>      // defines errno
-		                // errno gets set by opendir() from dirent.h
+		                    // errno gets set by opendir() from dirent.h
 #include <getopt.h>
 #include "colors.h"
 
@@ -41,8 +42,7 @@ int main(int argc, char *argv[]) {
                 }
                 options.function = REPLACE;
                 options.search_term = optarg;
-                options.replacement_term = argv[3];
-                                        
+                options.replacement_term = argv[3];                                        
                 break;
 
             case 'i':
@@ -109,8 +109,8 @@ void recursive(char *path, struct searchIndex* index) {
 
 
 bool filterFileName(const char * item_name) {
-    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0) {
-        return true;
+    if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "fs")) {
+    return true;
     }
     return false;
 }
@@ -145,12 +145,12 @@ fileType getFileStatus (const char* path) {
 }
 
 
-void getItemPath(const char* path, const char* item_name, char* directory_path) {                   
-    strcat(directory_path,path);                                                                        
-    strcat(directory_path, item_name); 
-    strcat(directory_path, "/");                                                         
+void getItemPath(const char* path, const char* item_name, char* directory_path) {       
+    strlcat(directory_path, path, MAX_PATH_SIZE);
+    strlcat(directory_path, item_name, MAX_PATH_SIZE);
+    strlcat(directory_path, "/", MAX_PATH_SIZE);
 }
- 
+
 void parseFile(operation op, struct searchIndex* index, struct options options, uint64_t size) {
     for (uint64_t i = 0; i < size; i++) {
         op(&(index->items[i]), options);

@@ -85,6 +85,9 @@ void _replace(struct searchItem* item, struct options options) {
 
   // ############## read file content into buffer ######################
 
+
+  printf("%s\n", item->path);
+
   FILE *fp = fopen(item->path, "r");
 
   if(fp == NULL){
@@ -171,7 +174,7 @@ void _replace(struct searchItem* item, struct options options) {
   // ##############  write output to new_content  ######################
 
   if(st_occurence_count > 0) {
-    int stored_index = 0;
+    size_t stored_index = 0;
     int stored_end = i;
     st_occurence_index = 0;
 
@@ -193,7 +196,7 @@ void _replace(struct searchItem* item, struct options options) {
             new_index++;
           }
 
-          stored_index += (int) search_term_len;
+          stored_index += search_term_len;
           st_occurence_index++;
         } else {
             *(new_content + new_index) = *(buffer + stored_index);

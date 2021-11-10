@@ -15,6 +15,8 @@ stdlib.h
 -
 string.h
 -
+bsd/string.h
+-
 dirent.h
 -
 fs.h
@@ -42,22 +44,6 @@ stdbool.h
 stdint.h
 -
 sys/types.h
--
-
-/home/patrick/Programming/fs/app/operations.c
-operations.h
-/home/patrick/Programming/fs/app/operations.h
-stdio.h
--
-stdlib.h
--
-string.h
--
-stdint.h
--
-colors.h
-/home/patrick/Programming/fs/app/colors.h
-errno.h
 -
 
 /home/patrick/Programming/fs/app/operations.h

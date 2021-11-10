@@ -1,5 +1,10 @@
 #FS
 
+
+dependency:
+
+- libbsd
+
 mentions: 
 
 - ACII vs utf-8 
@@ -11,11 +16,11 @@ mentions:
 
 TODO:
 
+- should linecount + columncount start at different numbers?
+
 - add pattern matching for ignoring files + static file
 
 - change details, char pointer vs char array
-
-- replace strcpy()
 
 - check operations.h (line 196 conversion error)
 
