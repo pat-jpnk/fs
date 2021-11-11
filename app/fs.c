@@ -80,8 +80,8 @@ void recursive(char *path, struct searchIndex* index) {
         const char* item_name = dp->d_name;
 
         if(filterFileName(item_name) == true) {           
-            strcat(item_path,path);                                                                  
-            strcat(item_path, item_name);
+            strlcat(item_path,path,MAX_PATH_SIZE);                                                                  
+            strlcat(item_path, item_name, MAX_PATH_SIZE);
             fileType type = getFileStatus(item_path);
 
             switch(type) {

@@ -16,8 +16,6 @@ mentions:
 
 TODO:
 
-- replace strcat with strlcat in line ~ 83 in fs.c
-
 - should linecount + columncount start at different numbers?
 
 - add pattern matching for ignoring files + static file
