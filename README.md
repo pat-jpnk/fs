@@ -9,9 +9,15 @@ build:
 
 
 help:
-  - "./fs" in /build
+- "./fs" in /build <br/>
 
-> search -s [search term]   
-> info -i   
-> replace -r [target term] [replacement term]   
+examples:
 
+> search -s [search term] <br/>
+> ./fs -s "superman"
+
+> info -i <br/>
+> ./fs -i
+
+> replace -r [target term] [replacement term] <br/>
+> -/fs -r "superman" "man"
