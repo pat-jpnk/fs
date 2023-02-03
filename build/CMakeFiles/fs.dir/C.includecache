@@ -8,34 +8,6 @@
 
 /home/patrick/Programming/fs/app/colors.h
 
-/home/patrick/Programming/fs/app/fs.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-bsd/string.h
--
-dirent.h
--
-fs.h
-/home/patrick/Programming/fs/app/fs.h
-operations.h
-/home/patrick/Programming/fs/app/operations.h
-libgen.h
--
-dirent.h
--
-limits.h
--
-errno.h
--
-getopt.h
--
-colors.h
-/home/patrick/Programming/fs/app/colors.h
-
 /home/patrick/Programming/fs/app/fs.h
 sys/stat.h
 -

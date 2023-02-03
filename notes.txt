@@ -13,8 +13,13 @@ mentions:
 
 - add icu4c
 
-
 TODO:
+
+
+- "./fs - "auto" "bahn" " causes segfault
+
+- fix replace: - add newline, remove excess characters
+
 
 - should linecount + columncount start at different numbers?
 

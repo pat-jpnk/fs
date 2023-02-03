@@ -53,13 +53,13 @@ int main(int argc, char *argv[]) {
                 return -1;
         }   
     }
-
+    
     struct searchIndex index;
     index.size = 0;
     
     recursive(ROOTPATH, &index); 
     parseIndex(&index, &options);     
-    
+
     return 0;
 }
 

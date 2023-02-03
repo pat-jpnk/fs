@@ -1,16 +1,15 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "C"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_C
-  "/home/patrick/Programming/fs/app/fs.c" "/home/patrick/Programming/fs/build/CMakeFiles/fs.dir/app/fs.c.o"
-  "/home/patrick/Programming/fs/app/operations.c" "/home/patrick/Programming/fs/build/CMakeFiles/fs.dir/app/operations.c.o"
-  )
-set(CMAKE_C_COMPILER_ID "GNU")
 
-# The include file search paths:
-set(CMAKE_C_TARGET_INCLUDE_PATH
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/patrick/Programming/fs/app/fs.c" "CMakeFiles/fs.dir/app/fs.c.o" "gcc" "CMakeFiles/fs.dir/app/fs.c.o.d"
+  "/home/patrick/Programming/fs/app/operations.c" "CMakeFiles/fs.dir/app/operations.c.o" "gcc" "CMakeFiles/fs.dir/app/operations.c.o.d"
   )
 
 # Targets to which this target links.
