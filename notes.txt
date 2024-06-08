@@ -5,6 +5,16 @@ dependency:
 
 - libbsd
 
+
+todo:
+
+- googletest
+- cmake improvement
+- code todos
+- file read optimizations
+- valgrind automization / documentation
+
+
 mentions: 
 
 - ACII vs utf-8 
