@@ -15,8 +15,8 @@
 
 
 int main(int argc, char *argv[]) {
-    int opt;
-    struct options options;
+    int opt = 0;
+    struct options options = NONE;
    
    if(argc < 2) {
       printf(KGRN"fs\n"KRESET"search"KYEL" -s [search term]"KRESET"\ninfo"KYEL" -i "KRESET"\nreplace "KYEL"-r [target term] [replacement term]"KRESET"\n");
@@ -49,9 +49,15 @@ int main(int argc, char *argv[]) {
                 options.function = INFO;
                 break;
 
-            default:
-                return -1;
+            case 'h':
+                printf(KGRN "fs\n" KRESET "search" KYEL " -s [search term]" KRESET "\ninfo" KYEL " -i " KRESET "\nreplace " KYEL " -r [search term] [replacement term]" KRESET "\n");
+                return 0;
         }   
+    }
+
+    if(options.search_term == NONE) {
+        printf(KGRN"fs\n"KRESET"search"KYEL" -s [search term]"KRESET"\ninfo"KYEL" -i "KRESET"\nreplace "KYEL"-r [target term] [replacement term]"KRESET"\n");
+        return 0;
     }
     
     struct searchIndex index;
@@ -107,7 +113,7 @@ void recursive(char *path, struct searchIndex* index) {
     closedir(dir);
 }
 
-
+// TODO: simplify
 bool filterFileName(const char * item_name) {
     if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "fs")) {
     return true;

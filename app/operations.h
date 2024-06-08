@@ -3,7 +3,7 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
-#define OI_INITIAL_SIZE 100     // inital occurence index size
+#define OI_INITIAL_SIZE 100     // inital occurrence index size
 #define BF_INITIAL_SIZE 200     // intital size of buffer
 
 

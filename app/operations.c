@@ -10,7 +10,7 @@ void _search(struct searchItem* item, struct options options) {
   FILE *fp = fopen(item->path, "r");
   
   if(fp == NULL) {
-        fprintf(stderr, "Error opening %s\n", item->path); // e.g. permission denied
+        fprintf(stderr, "Error opening %s\n", item->path); // possibly permission denied 
     }
 
   size_t search_term_len = strlen(options.search_term);
@@ -18,18 +18,18 @@ void _search(struct searchItem* item, struct options options) {
   int close_status;
 
 
-  char* buffer = (char*) malloc((size * sizeof(char)));
+  char* buffer = malloc((size * sizeof(char)));  // void pointer returned by malloc is automatically converted to the correct type
   unsigned int buffer_index = 0;
 
   if(buffer == NULL) {
     fprintf(stderr, "Fatal error, failed to allocate %u bytes", BF_INITIAL_SIZE);
-    abort();
+    abort();    // TODO: exit?
   }
   
   while(feof(fp) == 0) {
     if(buffer_index == size) {
-      buffer = (char*) realloc(buffer, (size * 1.5));
-      size *= 1.5;
+      buffer = (char*) realloc(buffer, ((size * 3) / 2));  // TODO: edit
+      size *= ((size * 3) / 2);
     }
     int c = fgetc(fp);
     if(c != EOF) {
@@ -43,7 +43,7 @@ void _search(struct searchItem* item, struct options options) {
   close_status = fclose(fp);
   
   if(close_status == EOF) {
-    perror("Error closing file");
+    fprintf(stderr, "Error closing file");
   }
 
 
@@ -68,7 +68,7 @@ void _search(struct searchItem* item, struct options options) {
                         }
                     }
                     if(mismatch == false) {
-                        printf(KWHT"%lu:%lu %s\n"KRESET, line_count, j_cache, item->path);                    
+                        printf(KGRN"%lu:%lu %s\n"KRESET, line_count, j_cache, item->path);                    
                     }
                     break;
                 } 
@@ -77,22 +77,20 @@ void _search(struct searchItem* item, struct options options) {
             j++;
         }
     } else {
-      fprintf(stderr,KNRM"%s not read, file empty\n"KRESET, item->path); // triggers on empty file
+      fprintf(stderr,KCYN"%s not read, file empty\n"KRESET, item->path); // triggers on empty file
     }
+
+  free(buffer);
 }
+
 
 void _replace(struct searchItem* item, struct options options) {
 
-
   // ############## read file content into buffer ######################
-
-  printf("%s\n", item->path);
-  printf("%s\n\n", options.replacement_term);
-
 
   FILE *fp = fopen(item->path, "r");
 
-  if(fp == NULL){
+  if(fp == NULL) {
     fprintf(stderr, "Error opening %s\n", item->path);
     abort();
   }
@@ -101,31 +99,29 @@ void _replace(struct searchItem* item, struct options options) {
   size_t replacement_term_len = strlen(options.replacement_term);
 
   int close_status;
-  int c;
+  //int c;
 
   unsigned int buffer_index = 0; 
   unsigned int size = BF_INITIAL_SIZE;
-  unsigned int new_len;
+  unsigned int new_len = 0;     
   unsigned int new_index = 0;
 
   char* new_content;
-  char* buffer = (char*) malloc(BF_INITIAL_SIZE * sizeof(char)); 
+  char* buffer =  malloc(BF_INITIAL_SIZE * sizeof(char));
 
   if(buffer == NULL) {
     fprintf(stderr, "Fatal error, failed to allocate %u bytes", BF_INITIAL_SIZE);
-    abort();
+    exit(1);
   }
+
 
   while(feof(fp) == 0) {
     if(buffer_index == size) {
-      buffer = (char*) realloc(buffer, (size * 1.5));
-      size *= 1.5;
+      buffer = (char*) realloc(buffer, ((size * 3) / 2));  // TODO: edit 
+        size *= ((size * 3) / 2);
     }
     int c = fgetc(fp);
     if(c != EOF) {
-      
-    //  printf("char: %c\n", c);
-
       *(buffer + buffer_index) = c; 
       buffer_index += 1;
     } else {
@@ -133,40 +129,21 @@ void _replace(struct searchItem* item, struct options options) {
     }
   }
 
-
-  *(buffer + buffer_index) = '\0';
-
   close_status = fclose(fp);
 
   if(close_status == EOF) {
-    perror("Error closing file");
+    fprintf(stderr, "Error closing file");
+    exit(1);
   }
 
-  
-  // TODO: remove
-
-
-  // buffer_index is length, not max index
-
-
- // printf("BUFFER CONTENT:%sbuffer_index: %u\n",buffer, buffer_index);
-
-/**
-
-  exit(1);
-**/
-
-  // ##############  record occurences  ######################
-
+  // ##############  record occurrences  ######################
 
   unsigned int j = 0;
-  unsigned int i = buffer_index;
+  unsigned int st_occurrences[OI_INITIAL_SIZE];
+  unsigned int st_occurrence_index = 0;
+  unsigned int st_occurrence_count = 0;
 
-  int st_occurences[OI_INITIAL_SIZE];
-  int st_occurence_index = 0;
-  int st_occurence_count = 0;
-
-  while(j < i) {
+  while(j < buffer_index) {
     if(*(buffer+j) == options.search_term[0]) {
       bool mismatch = false;
 
@@ -179,11 +156,9 @@ void _replace(struct searchItem* item, struct options options) {
         }
 
         if(mismatch == false) {
-       //   printf("occurr_index: %d\n\n",j);
-
-          st_occurences[st_occurence_index] = j;   
-          st_occurence_index++;
-          st_occurence_count++;
+          st_occurrences[st_occurrence_index] = j;   
+          st_occurrence_index++;
+          st_occurrence_count++;
           j += search_term_len;   
         } else {  
           j++;
@@ -195,203 +170,217 @@ void _replace(struct searchItem* item, struct options options) {
     } 
   }
 
-/**
-  printf("\nst_occurence_count: %d\n", st_occurence_count);
-  
-  exit(1);
-  **/
-
-
   // ##############  write output to new_content  ######################
 
-  if(st_occurence_count > 0) {
-    size_t stored_index = 0;
-    int stored_end = i;
-    st_occurence_index = 0;
+  if(st_occurrence_count > 0) {
+
+    new_len = ((buffer_index) + (((int) st_occurrence_count) * (((int) replacement_term_len) - ((int) search_term_len))));  // index - 1
+    st_occurrence_index = 0;
+
+    //  unsigned int buffer_max = buffer_index;
+    unsigned int buffer_count = 0;
+    unsigned int new_content_count = 0;
+
+    new_content = malloc(new_len * sizeof(char));
     
-    int term_difference = replacement_term_len - search_term_len;
-
-
-    new_len = ( (buffer_index - 1) + (((int) st_occurence_count) * ( ((int) replacement_term_len) - ((int) search_term_len))) );   
-
-  //  printf("new len: %d\n", new_len);
-
-   // int new_st_occurences[st_occurence_count];
-    
-
-    if(search_term_len > replacement_term_len) {
-      // .....
-    } else if(search_term_len < replacement_term_len) {
-      
-      int term_index = 0;
-
-      for(int i = 0; i < st_occurence_count; i++) {
-      //  new_st_occurences[i] = st_occurences[i] + (term_index * term_difference);
-      //  printf("ind: %d\n", new_st_occurences[i]);
-      //  term_index += 1;
-      }
-
-
-    } else {
-      // ...
-    }
-
-   
-    printf("start ....\n");
-
-    int sol[buffer_index];
-    bool end = false;
-    int n = buffer_index - 1;
-    int x = 0;
-    int sol_x = 0;
-
-    int t = 0; // occur index
-
-    //printf("n = %d\n", n);
-
-    while(end == false) {
-
-      //printf("X: %d\n",x);
-      
-      //printf("1 \n");
-
-      if(x == st_occurences[t]) {
-        //printf("2\n");
-
-        if((t + 1) <= st_occurence_count) {
-          t += 1;
-        }
-        sol[sol_x] = -1;
-        sol_x++;
-        x++;
-      } else {
-        //printf("4\n");
-        sol[sol_x] = x;
-        sol_x++;
-        x++;
-      }
-      
-      if(x == n) {
-        end = true;
-      }
-
-      //printf("end loop\n\n");
-    }
-
-    
-    //printf("x: %d\n", x);
-
-    //for(int z = 0; z < n; z++){
-    //  printf("sol: %d\n", sol[z]);
-    //}
-
-
-    //exit(1);
-
-    new_content = (char*) malloc(new_len * sizeof(char));
-
     if(new_content == NULL) {
       fprintf(stderr, "Fatal error, failed to allocate %u bytes", new_len);
-      abort();
+      exit(1);
     }
-  
-    int h = 0;
-    int f = 0;
 
-    while(h < new_len){
-      if(sol[f] != -1) {
-        *(new_content + h) = *(buffer + f);
-       // printf("%d : %c ORG\n",h,*(buffer + f));
-        h++;
-        f++;
+    memset(new_content, 0, new_len);   // TODO: EDIT
+
+    while(buffer_count < buffer_index) {
+
+      if(buffer_count == st_occurrences[st_occurrence_index]) {
+
+        for(size_t i = 0; i < replacement_term_len; i++) {        
+            *(new_content + new_content_count) = *(options.replacement_term + i);
+            new_content_count++;
+        }
+        
+        buffer_count += search_term_len;
+
+        if((st_occurrence_index) < st_occurrence_count) {  // index - 1     <=
+          st_occurrence_index++;
+        }
+
       } else {
-         for(size_t i = 0; i < replacement_term_len; i++) {
-            *(new_content + h) = *(options.replacement_term + i);
-         //   printf("%d : %c\n",h,*(options.replacement_term + i));
-            h++;
-          }
-          f++;
-      }
-      //printf("\n");
+        *(new_content + new_content_count) = *(buffer + buffer_count);
+        new_content_count++;
+        buffer_count++;
+      }      
+
     }
 
+    fprintf(stdout, KGRN"%.*s - search term occurrence found\n"KRESET, (int)sizeof(item->path), item->path);
 
-/**
-    printf("buff 2: %c\n", *(buffer + 2));
-
-
-    printf("buff 7: %c\n", *(buffer + 7));
-
-
-    printf("buff 10: %c\n", *(buffer + 10));
-
-
-**/
-   // exit(1);
-
-
-    /**
-    while(new_index < new_len) {
-
-      if(st_occurence_index < (st_occurence_count)) {
-        if(new_index == (st_occurences[st_occurence_index])) {
-          for(size_t i = 0; i < replacement_term_len; i++) {
-            *(new_content + new_index) = *(options.replacement_term + i);
-            new_index++;
-          }
-
-          stored_index += search_term_len;
-          st_occurence_index++;
-        } else {
-            *(new_content + new_index) = *(buffer + stored_index);
-            new_index++;  
-            stored_index++;
-        }      
-      } else {
-          for(size_t k = stored_index; k < stored_end; k++) {
-            *(new_content + new_index) = *(buffer + k);
-            new_index++;
-          }
-      }
-    }
-    **/
+    free(buffer);
 
   } else {
-    // TODO: remove
-
-   // printf("EXITING BEFORE\n");
+    fprintf(stdout, KRED"%.*s - no search term occurrences found\n"KRESET, (int)sizeof(item->path), item->path);   // %.*s -> convenient to print char array
     free(buffer);
     return;
-
-    }
-
-  free(buffer);
+  }
 
   // ##############  write output to file  ######################
  
   FILE *rp = fopen(item->path, "w+");
+
   if(rp == NULL) {
     fprintf(stderr, "Error opening %s\n", item->path);
-    abort();
+    exit(1);
   }
 
-  
-  
-  for(int u = 0; u <= (new_len - 1); u++) {
-    //printf("%d c: %c\n",u,*(new_content+u));
+  for(unsigned int u = 0; u < new_len; u++) {
     fputc(*(new_content+u),rp);
   }
 
-
   close_status = fclose(rp);       
+
   if(close_status == EOF) {
-    perror("Error closing file");
+    fprintf(stderr, "Error closing file");
+    exit(1);
   }
 
   free(new_content);
-  
+
 }
 
+
+/** 
+
+void _replace(struct searchItem* item, struct options options) {
+
+    // ############## read file content into buffer ######################
+
+    FILE *fp = fopen(item->path, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "Error opening %s\n", item->path);
+        exit(1);
+    }
+
+    size_t search_term_len = strlen(options.search_term);
+    size_t replacement_term_len = strlen(options.replacement_term);
+
+    unsigned int buffer_index = 0;
+    unsigned int size = BF_INITIAL_SIZE;
+
+    char* buffer = malloc(BF_INITIAL_SIZE * sizeof(char));
+    if (buffer == NULL) {
+        fprintf(stderr, "Fatal error, failed to allocate %u bytes", BF_INITIAL_SIZE);
+        exit(1);
+    }
+
+    while (!feof(fp)) {
+        if (buffer_index == size) {   
+            size = (size * 3) / 2;            // TODO: edit
+            buffer = realloc(buffer, size);
+            if (buffer == NULL) {
+                fprintf(stderr, "Fatal error, failed to reallocate buffer");
+                exit(1);
+            }
+        }
+        int c = fgetc(fp);
+        if (c != EOF) {
+            buffer[buffer_index++] = (char)c;
+        } else {
+            break;
+        }
+    }
+
+    if (fclose(fp) == EOF) {
+        fprintf(stderr, "Error closing file");
+        exit(1);
+    }
+
+    // ############## record occurrences ######################
+
+    unsigned int j = 0;
+    int st_occurrences[OI_INITIAL_SIZE];
+    int st_occurrence_index = 0;
+    int st_occurrence_count = 0;
+
+    while (j < buffer_index) {
+        if (buffer[j] == options.search_term[0]) {
+            bool mismatch = false;
+            for (size_t k = 0; k < search_term_len; k++) {
+                if (buffer[j + k] != options.search_term[k]) {
+                    mismatch = true;
+                    break;
+                }
+            }
+            if (!mismatch) {
+                st_occurrences[st_occurrence_index++] = j;
+                st_occurrence_count++;
+                j += search_term_len;
+            } else {
+                j++;
+            }
+        } else {
+            j++;
+        }
+    }
+
+    // ############## write output to new_content ######################
+
+    if (st_occurrence_count > 0) {
+        unsigned int new_len = buffer_index + (st_occurrence_count * (replacement_term_len - search_term_len));
+        char* new_content = malloc(new_len * sizeof(char));
+        if (new_content == NULL) {
+            fprintf(stderr, "Fatal error, failed to allocate %u bytes", new_len);
+            exit(1);
+        }
+
+        memset(new_content, 0, new_len);        // TODO: edit
+
+        unsigned int buffer_count = 0;
+        unsigned int new_content_count = 0;
+        st_occurrence_index = 0;
+
+        while (buffer_count < buffer_index) {
+            if (buffer_count == st_occurrences[st_occurrence_index]) {
+                for (size_t i = 0; i < replacement_term_len; i++) {
+                    new_content[new_content_count++] = options.replacement_term[i];
+                }
+                buffer_count += search_term_len;
+                if (st_occurrence_index < st_occurrence_count) {
+                    st_occurrence_index++;
+                }
+            } else {
+                new_content[new_content_count++] = buffer[buffer_count++];
+            }
+        }
+
+        fprintf(stdout, "Replacement done: %s\n", item->path);
+        free(buffer);
+
+        // ############## write output to file ######################
+
+        FILE *rp = fopen(item->path, "w+");
+        if (rp == NULL) {
+            fprintf(stderr, "Error opening %s\n", item->path);
+            exit(1);
+        }
+
+        for (unsigned int u = 0; u < new_len; u++) {
+            fputc(new_content[u], rp);
+        }
+
+        if (fclose(rp) == EOF) {
+            perror("Error closing file");
+            fprintf(stderr, "Error closing file");
+            exit(1);
+        }
+
+        free(new_content);
+    } else {
+        fprintf(stdout, "No occurrences found: %s\n", item->path);
+        free(buffer);
+    }
+}
+
+**/
 
 void _info(struct searchItem* item, struct options options) {
     printf(KWHT"%lu %s\n"KRESET,item->st_ino, item->path);

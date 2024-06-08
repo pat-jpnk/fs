@@ -2,13 +2,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
+#include <stdio.h>
 
 #ifndef FS_H
 #define FS_H
 
-#define ROOTPATH "./"             
+#define ROOTPATH "./"                       // TODO: replace with parameter?
 #define MAX_PATH_SIZE 1024                  // in characters
-#define MAX_SEARCH_ITEMS 150                // set to something smart, like OPEN_MAX
+#define MAX_SEARCH_ITEMS FOPEN_MAX          // defined in <stdio.h>
 
 typedef enum fileType {
     SOCKET,
@@ -22,6 +23,7 @@ typedef enum fileType {
 } fileType;
 
 typedef enum func {
+    NONE,
     SEARCH,
     REPLACE,
     INFO
@@ -35,7 +37,7 @@ typedef struct options {
 
 typedef struct searchItem {
     ino_t st_ino;                           // File serial number defined in <sys/stat.h>
-    char path[MAX_PATH_SIZE];               // changed from char*
+    char path[MAX_PATH_SIZE];               
     fileType type;                          // enum defined above
 } searchItem;
 
