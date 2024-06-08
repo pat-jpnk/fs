@@ -3,20 +3,18 @@
 #include <string.h>
 #include <bsd/string.h>
 #include <dirent.h>
-#include "fs.h"
-#include "operations.h"
 #include <libgen.h>
-#include <dirent.h>
 #include <limits.h>
-#include <errno.h>      // defines errno
-		                    // errno gets set by opendir() from dirent.h
+#include <errno.h>      // defines errno, errno gets set by opendir() from dirent.h
 #include <getopt.h>
+#include "operations.h"
+#include "fs.h"
 #include "colors.h"
 
 
 int main(int argc, char *argv[]) {
     int opt = 0;
-    struct options options = NONE;
+    struct options options;
    
    if(argc < 2) {
       printf(KGRN"fs\n"KRESET"search"KYEL" -s [search term]"KRESET"\ninfo"KYEL" -i "KRESET"\nreplace "KYEL"-r [target term] [replacement term]"KRESET"\n");
@@ -52,6 +50,10 @@ int main(int argc, char *argv[]) {
             case 'h':
                 printf(KGRN "fs\n" KRESET "search" KYEL " -s [search term]" KRESET "\ninfo" KYEL " -i " KRESET "\nreplace " KYEL " -r [search term] [replacement term]" KRESET "\n");
                 return 0;
+            
+            case default>
+                options.function = NONE;
+                break;
         }   
     }
 
@@ -113,7 +115,7 @@ void recursive(char *path, struct searchIndex* index) {
     closedir(dir);
 }
 
-// TODO: simplify
+// TODO: simplify, make flexible
 bool filterFileName(const char * item_name) {
     if(strcmp(item_name, "a.out") != 0 && strcmp(item_name, ".git") != 0 && strcmp(item_name, ".gitignore") != 0 && strcmp(item_name, ".") != 0 && strcmp(item_name, "..") != 0 && strcmp(item_name, "fs")) {
     return true;
@@ -122,7 +124,7 @@ bool filterFileName(const char * item_name) {
 }
 
 fileType getFileType (mode_t m) {           // @param m | st_mode attribute of struct stat
-    switch (m & S_IFMT) {                   //bitwaaa AND to determine file type
+    switch (m & S_IFMT) {                   // S_IFMT   | bit mask for file type
         case S_IFSOCK:  return SOCKET;      //socket
         case S_IFLNK:   return SYMLINK;     //symbolic link
         case S_IFREG:   return REGULAR;     //regular file
@@ -157,6 +159,7 @@ void getItemPath(const char* path, const char* item_name, char* directory_path) 
     strlcat(directory_path, "/", MAX_PATH_SIZE);
 }
 
+// TODO: remove superfluous parameter for info
 void parseFile(operation op, struct searchIndex* index, struct options options, uint64_t size) {
     for (uint64_t i = 0; i < size; i++) {
         op(&(index->items[i]), options);
