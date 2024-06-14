@@ -13,11 +13,11 @@ help:
 
 examples:
 
-> search -s [search term] <br/>
+search -s [search term] <br/>
 > ./fs -s "superman"
 
-> info -i <br/>
+info -i <br/>
 > ./fs -i
 
-> replace -r [target term] [replacement term] <br/>
+replace -r [target term] [replacement term] <br/>
 > -/fs -r "superman" "man"

@@ -1,3 +1,0 @@
-/home/patrick/Programming/fs/build/CMakeFiles/fs.dir
-/home/patrick/Programming/fs/build/CMakeFiles/edit_cache.dir
-/home/patrick/Programming/fs/build/CMakeFiles/rebuild_cache.dir

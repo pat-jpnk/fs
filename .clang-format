@@ -1,0 +1,79 @@
+---
+# Basic style settings
+BasedOnStyle: LLVM
+IndentWidth: 4                # Set indentation width to 4 spaces
+UseTab: Never                 # Use spaces instead of tabs
+ColumnLimit: 120              # Limit line length to 120 characters
+AllowShortIfStatementsOnASingleLine: false  # Prevent short if statements on a single line
+
+# Bracing styles
+BreakBeforeBraces: Allman     # Allman style for braces
+BraceWrapping:
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: true
+  BeforeCatch: true
+  BeforeElse: true
+
+# Space management
+SpaceBeforeParens: ControlStatements # Spaces before parentheses in control statements
+SpaceAfterCStyleCast: true
+SpaceInEmptyParentheses: false
+
+# Pointer and reference alignment
+PointerAlignment: Right       # Align pointer to the right (int* ptr)
+DerivePointerAlignment: false
+
+# Indentation settings
+IndentCaseLabels: true        # Indent case labels in switch statements
+IndentGotoLabels: true        # Indent goto labels
+IndentPPDirectives: None      # Preprocessor directives are not indented
+IndentWidth: 4                # Indentation width
+TabWidth: 4                   # Tab width
+
+# Comment formatting
+ReflowComments: true          # Reflow long comments to fit within the column limit
+
+# Include directives
+IncludeBlocks: Preserve       # Preserve include blocks
+SortIncludes: true            # Sort includes
+
+# Function declaration and definition
+AlignAfterOpenBracket: Align
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: Inline
+
+# Align trailing comments
+AlignTrailingComments: true
+
+# Fix namespace indentation
+FixNamespaceComments: true
+NamespaceIndentation: All
+
+# Align escapes in string literals
+AlignEscapedNewlines: Left
+
+# Allow short case labels on a single line
+AllowShortCaseLabelsOnASingleLine: false
+
+# Penalty settings to avoid breaking code lines too much
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakString: 1000
+PenaltyBreakFirstLessLess: 120
+PenaltyExcessCharacter: 1000000
+
+# Spaces around operators
+SpaceBeforeRangeBasedForLoopColon: true
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+SpacesInContainerLiterals: false
+SpacesInParentheses: false
+
+# Format macros
+KeepEmptyLinesAtTheStartOfBlocks: false

@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/fs.dir/app/fs.c.o CMakeFiles/fs.dir/app/operations.c.o -o /home/patrick/Programming/fs/bin/fs  -lbsd
